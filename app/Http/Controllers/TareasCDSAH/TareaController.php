@@ -27,7 +27,7 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -93,11 +93,28 @@ class TareaController extends Controller
         
 
     }
-    public function dailyTask()
-    {
-        $tareas = Tarea::where('users_id', 1 )->where('fechaFin', date("y")."-".date("m")."-".date("d"))->get(); 
+
+    public function tareasDiarias(request $request){
+        $tareas = Tarea::where('users_id', $request->id )->where('fechaFin', $request->fecha )->get(); 
         return response()->json(["tarea"=>$tareas]);
-        //devuelve la o las tareas que coincidan con la fecha actual
+    }
+
+
+    public function insertarTarea(request $request){
+    //Creamos una instancia del modelo
+    $Tarea = new Tarea;
+    //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
+    $Tarea->tituloTarea=$request->titulo; //campos del json
+    $Tarea->prioridad=$request->prioridad;
+    $Tarea->descripcion=$request->descripcion;
+    $Tarea->estado=$request->estado;
+    $Tarea->fechaInicio->$request->fechaInicio;
+    $Tarea->fechaFin->$request->fechaFin;
+    $Tarea->horaInicio->$request->horaInicio;
+    $Tarea->horaFin->$request->horaFin;
+
+    //Guardamos en la bd
+    $Tarea->save();
 
     }
 }

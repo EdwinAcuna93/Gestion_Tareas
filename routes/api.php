@@ -30,6 +30,7 @@ Route::group([
     'prefix' => 'tareas',
 ], function () {
     Route::get('listar', 'TareasCDSAH\TareaController@prueba');
-    Route::get('tareas', 'TareasCDSAH\TareaController@dailyTask');
+    Route::get('diario', 'TareasCDSAH\TareaController@tareasDiarias');
+    Route::get('insertar', 'TareasCDSAH\TareaController@insertarTarea');
 
 });
