@@ -17,6 +17,7 @@ class CreateReportesTable extends Migration
             $table->increments('id');
             $table->String('titulo');
             $table->String('descripcion');
+            $table->String('observacion');
             $table->integer('users_id')->unsigned();            
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();

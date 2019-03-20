@@ -18,6 +18,7 @@ class CreateTareasTable extends Migration
             $table->String('tituloTarea');
             $table->String('prioridad');
             $table->String('descripcion');
+            $table->String('estado');
             $table->date('fechaInicio');
             $table->date('fechaFin');
             $table->time('horaInicio');

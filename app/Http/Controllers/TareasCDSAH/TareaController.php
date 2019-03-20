@@ -89,8 +89,15 @@ class TareaController extends Controller
     public function prueba()
     {
         $dato= Tarea::all();
-        return response()->json($dato);
+        return response()->json(["tarea"=>$dato]);
         
+
+    }
+    public function dailyTask()
+    {
+        $tareas = Tarea::where('users_id', 1 )->where('fechaFin', date("y")."-".date("m")."-".date("d"))->get(); 
+        return response()->json(["tarea"=>$tareas]);
+        //devuelve la o las tareas que coincidan con la fecha actual
 
     }
 }
