@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Model\TareasCDSAH\Tarea;
 use  App\Http\Controllers\Controller;
-
+use App\User;
 class TareaController extends Controller
 {
     /**
@@ -94,34 +94,54 @@ class TareaController extends Controller
 
     }
 
-    public function tareasDiarias(request $request){
-        $tareas = Tarea::where('users_id', $request->id )->where('fechaFin', $request->fecha )->get(); 
+    public function tareasDiarias(Request $request){
+        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get(); 
         return response()->json(["tarea"=>$tareas]);
     }
+
+    // public function tareasDiarias(){
+    //     $tareas = Tarea::where('users_id', 1 )->where('fechaFin', '2019-03-20' )->get(); 
+    //     return response()->json(["tarea"=>$tareas]);
+    // }
 
 
     public function insertarTarea(request $request){
     //Creamos una instancia del modelo
     $Tarea = new Tarea;
+    
     //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
-    $Tarea->tituloTarea=$request->titulo; //campos del json
+    $Tarea->tituloTarea=$request->tituloTarea; //campos del json
     $Tarea->prioridad=$request->prioridad;
     $Tarea->descripcion=$request->descripcion;
     $Tarea->estado=$request->estado;
     $Tarea->fechaInicio=$request->fechaInicio;
-    $Tarea->fechaFin=$request->fechaFin;
-    $Tarea->horaInicio=$request->horaInicio;
-    $Tarea->horaFin=$request->horaFin;
-    $tarea->users_id=$request->users_id;
-
+     $Tarea->fechaFin=$request->fechaFin;
+     $Tarea->horaInicio=$request->horaInicio;
+     $Tarea->horaFin=$request->horaFin;
+    $Tarea->users_id=$request->users_id;
+    // $Tarea->tituloTarea="dafdasfds"; //campos del json
+    // $Tarea->prioridad="gfdgergfdgfdg";
+    // $Tarea->descripcion="dfrdsgdrsfgfdgfds";
+    // $Tarea->estado="dsgfdsfdsf";
+    // $Tarea->fechaInicio="2019-03-20";
+    // $Tarea->fechaFin="2019-03-20";
+    //  $Tarea->horaInicio="09:55:51";
+    //  $Tarea->horaFin="09:55:51";
+    // $Tarea->users_id=1;
+    // Tarea::create($request->all());
     //Guardamos en la bd
-    if($Tarea->save()==true){
+    // if($Tarea->save()){
+    //     return response()->json("registro insertado");
+    // }else{
+    //     return response()->json("registro no insertado");
+    // }
+    try {
+        $Tarea->save();
         return response()->json("registro insertado");
-
-    }else{
+    }catch (\Throwable $th) {
         return response()->json("registro no insertado");
     }
-
+// return $request->horaInicio;
   
 }
 }

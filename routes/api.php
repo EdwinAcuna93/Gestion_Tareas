@@ -31,6 +31,6 @@ Route::group([
 ], function () {
     Route::get('listar', 'TareasCDSAH\TareaController@prueba');
     Route::get('diario', 'TareasCDSAH\TareaController@tareasDiarias');
-    Route::get('insertar', 'TareasCDSAH\TareaController@insertarTarea');
+    Route::post('insertar', 'TareasCDSAH\TareaController@insertarTarea');
 
 });
