@@ -108,13 +108,20 @@ class TareaController extends Controller
     $Tarea->prioridad=$request->prioridad;
     $Tarea->descripcion=$request->descripcion;
     $Tarea->estado=$request->estado;
-    $Tarea->fechaInicio->$request->fechaInicio;
-    $Tarea->fechaFin->$request->fechaFin;
-    $Tarea->horaInicio->$request->horaInicio;
-    $Tarea->horaFin->$request->horaFin;
+    $Tarea->fechaInicio=$request->fechaInicio;
+    $Tarea->fechaFin=$request->fechaFin;
+    $Tarea->horaInicio=$request->horaInicio;
+    $Tarea->horaFin=$request->horaFin;
+    $tarea->users_id=$request->users_id;
 
     //Guardamos en la bd
-    $Tarea->save();
+    if($Tarea->save()==true){
+        return response()->json("registro insertado");
 
+    }else{
+        return response()->json("registro no insertado");
     }
+
+  
+}
 }
