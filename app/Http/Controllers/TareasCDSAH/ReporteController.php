@@ -5,6 +5,7 @@ namespace App\Http\Controllers\TareasCDSAH;
 use Illuminate\Http\Request;
 use App\Model\TareasCDSAH\Reporte;
 use  App\Http\Controllers\Controller;
+use App\User;
 
 class ReporteController extends Controller
 {
@@ -13,9 +14,10 @@ class ReporteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return Reporte::all();
+
+    public function index(){
+    //Retornamos todos los reportes
+    return response()->json(["Reporte"=>Reporte::all()]);
         
     }
 
@@ -24,9 +26,11 @@ class ReporteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+
+
+    public function create(){
+    
+   
     }
 
     /**
@@ -35,9 +39,22 @@ class ReporteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+     //Creamos una instancia del modelo de reporte
+     $Reporte = new Reporte;
+     //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
+     $Reporte->titulo=$request->titulo; //campos del json
+     $Reporte->descripcion=$request->descripcion;
+     $Reporte->observacion=$request->observacion;
+     $Reporte->users_id=$request->users_id;
+ 
+     try {
+         $Reporte->save();
+         return response()->json("registro insertado");
+     }catch (\Throwable $th) {
+         return response()->json("Registro no insertado");
+     }
+    
     }
 
     /**
@@ -57,9 +74,23 @@ class ReporteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        //Se busca el registro a buscar
+        $Reporte=Reporte::find($request->id);
+        //Ahora se empieza a actualiar dato por dato similar al insertar
+        $Reporte->titulo=$request->titulo; //campos del json
+        $Reporte->descripcion=$request->descripcion;
+        $Reporte->observacion=$request->observacion;
+        $Reporte->users_id=$request->users_id;
+
+        //Este realiza la actualizacion en la bd.
+        try {
+         $Reporte->save();
+         return response()->json("Observación Agregada con Exito");
+     }catch (\Throwable $th) {
+         return response()->json("Operación no completada");
+     }
     }
 
     /**
@@ -84,6 +115,13 @@ class ReporteController extends Controller
     {
         //
     }
+
+
+    public function buscarReportePorId(Request $request){
+        $Reporte = Reporte::where('users_id', $request->id )->get(); 
+        return response()->json(["reporte"=>$reporte]);
+    }
+
 
     
 }
