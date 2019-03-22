@@ -94,54 +94,92 @@ class TareaController extends Controller
 
     }
 
-    public function tareasDiarias(Request $request){
-        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get(); 
+    public function tareasDiariasPendientes(Request $request){
+        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
         return response()->json(["tarea"=>$tareas]);
     }
 
-    // public function tareasDiarias(){
-    //     $tareas = Tarea::where('users_id', 1 )->where('fechaFin', '2019-03-20' )->get(); 
-    //     return response()->json(["tarea"=>$tareas]);
-    // }
+    public function tareasDiariasFinalizadas(Request $request){
+        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->where('estado', 'Finalizada' )->get(); 
+        return response()->json(["tarea"=>$tareas]);
+    }
+
+    public function tareasNoCumplidas(Request $request){
+        $tareas = Tarea::where('users_id', $request->users_id )->where('estado', 'No Cumplida' )->where('fechaFin', $request->fechaFin )->get(); 
+        return response()->json(["tarea"=>$tareas]);
+    }
+
+    
 
 
+    public function buscarTareaPorId(Request $request){
+        $tarea = Tarea::where('id', $request->id )->get(); 
+        return response()->json(["tarea"=>$tarea]);
+    }
+
+    
     public function insertarTarea(request $request){
     //Creamos una instancia del modelo
     $Tarea = new Tarea;
-    
     //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
     $Tarea->tituloTarea=$request->tituloTarea; //campos del json
     $Tarea->prioridad=$request->prioridad;
     $Tarea->descripcion=$request->descripcion;
     $Tarea->estado=$request->estado;
     $Tarea->fechaInicio=$request->fechaInicio;
-     $Tarea->fechaFin=$request->fechaFin;
-     $Tarea->horaInicio=$request->horaInicio;
-     $Tarea->horaFin=$request->horaFin;
+    $Tarea->fechaFin=$request->fechaFin;
+    $Tarea->horaInicio=$request->horaInicio;
+    $Tarea->horaFin=$request->horaFin;
     $Tarea->users_id=$request->users_id;
-    // $Tarea->tituloTarea="dafdasfds"; //campos del json
-    // $Tarea->prioridad="gfdgergfdgfdg";
-    // $Tarea->descripcion="dfrdsgdrsfgfdgfds";
-    // $Tarea->estado="dsgfdsfdsf";
-    // $Tarea->fechaInicio="2019-03-20";
-    // $Tarea->fechaFin="2019-03-20";
-    //  $Tarea->horaInicio="09:55:51";
-    //  $Tarea->horaFin="09:55:51";
-    // $Tarea->users_id=1;
-    // Tarea::create($request->all());
-    //Guardamos en la bd
-    // if($Tarea->save()){
-    //     return response()->json("registro insertado");
-    // }else{
-    //     return response()->json("registro no insertado");
-    // }
+
     try {
         $Tarea->save();
         return response()->json("registro insertado");
     }catch (\Throwable $th) {
         return response()->json("registro no insertado");
     }
-// return $request->horaInicio;
+    //Forma de retornar partes de la data que llega
+    // return $request->horaInicio;
   
-}
+    }
+
+
+    //FUNCION PARA REALIZAR LA ACTUALIZACION DE UN REGISTRO
+    public function editarTarea(Request $request){ 
+       //Se busca el registro a buscar
+       $Tarea=Tarea::find($request->id);
+       //Ahora se empieza a actualiar dato por dato similar al insertar
+       $Tarea->tituloTarea=$request->tituloTarea; //campos del json
+       $Tarea->prioridad=$request->prioridad;
+       $Tarea->descripcion=$request->descripcion;
+       $Tarea->estado=$request->estado;
+       $Tarea->fechaInicio=$request->fechaInicio;
+       $Tarea->fechaFin=$request->fechaFin;
+       $Tarea->horaInicio=$request->horaInicio;
+       $Tarea->horaFin=$request->horaFin;
+       $Tarea->users_id=$request->users_id;
+       //Este realiza la actualizacion en la bd.
+       try {
+        $Tarea->save();
+        return response()->json("registro modificado con éxito");
+    }catch (\Throwable $th) {
+        return response()->json("Error en la modificación del registro".$th);
+    }  
+       }//fin del metodo editarTarea
+
+
+
+       public function eliminarTarea(Request $request) {  
+        //Se recibe como parametro el $id y se busca, este se almacena en la variable Tarea
+        $Tarea=Tarea::find($request->id);
+        //Se realiza la eliminacion del registro.
+        try{
+            $Tarea->delete();
+            return response()->json("Registro Eliminado con exito");
+        }catch (\Throwable $th) {
+            return response()->json("Error al eliminar el registro");
+        }  
+        
+
+       } 
 }
