@@ -17,7 +17,7 @@ class ReporteController extends Controller
 
     public function index(){
     //Retornamos todos los reportes
-    return Reporte::all();
+    return response()->json(["Reporte"=>Reporte::all()]);
         
     }
 
