@@ -133,8 +133,6 @@ class TareaController extends Controller
     $Tarea->estado=$request->estado;
     $Tarea->fechaInicio=$request->fechaInicio;
     $Tarea->fechaFin=$request->fechaFin;
-    $Tarea->horaInicio=$request->horaInicio;
-    $Tarea->horaFin=$request->horaFin;
     $Tarea->users_id=$request->users_id;
 
     try {
@@ -160,8 +158,6 @@ class TareaController extends Controller
        $Tarea->estado=$request->estado;
        $Tarea->fechaInicio=$request->fechaInicio;
        $Tarea->fechaFin=$request->fechaFin;
-       $Tarea->horaInicio=$request->horaInicio;
-       $Tarea->horaFin=$request->horaFin;
        $Tarea->users_id=$request->users_id;
        //Este realiza la actualizacion en la bd.
        try {
@@ -205,5 +201,21 @@ class TareaController extends Controller
          return response()->json("Error en la modificación del registro".$th);
      }  
         }//fin del metodo editarTarea
+
+
+        public function editarEstadoTareaMultiple(Request $request){ 
+            //Se busca el registro a buscar
+             $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get(); 
+            // //Ahora se empieza a actualiar dato por dato similar al insertar
+            
+            // foreach ($tareas as $key) {
+            //     $key->estado="Incumplida";
+            //     $key->save();
+            // }
+      
+             return response("sahdljsahdlksa");
+            
+            }//fin del metodo editarTarea
+    
  
 }

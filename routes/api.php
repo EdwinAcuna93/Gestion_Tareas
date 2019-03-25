@@ -43,6 +43,7 @@ Route::group([
 
     Route::delete('eliminar', 'TareasCDSAH\TareaController@eliminarTarea');
     Route::get('buscar', 'TareasCDSAH\TareaController@buscarTareaPorId');
+    Route::post('prueba', 'TareasCDSAH\TareaController@editarEstadoTareaMultiple');
 
 });
 

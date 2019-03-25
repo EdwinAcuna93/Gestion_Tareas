@@ -43,16 +43,16 @@ class ReporteController extends Controller
      //Creamos una instancia del modelo de reporte
      $Reporte = new Reporte;
      //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
-     $Reporte->titulo=$request->titulo; //campos del json
      $Reporte->descripcion=$request->descripcion;
      $Reporte->observacion=$request->observacion;
+     $Reporte->fecha=$request->fecha;
      $Reporte->users_id=$request->users_id;
  
      try {
          $Reporte->save();
-         return response()->json("registro insertado");
+         return response()->json("registro insertado bien hecho don human");
      }catch (\Throwable $th) {
-         return response()->json("Registro no insertado");
+         return response()->json("Registro no insertado la regaste don human");
      }
     
     }
@@ -79,9 +79,10 @@ class ReporteController extends Controller
         //Se busca el registro a buscar
         $Reporte=Reporte::find($request->id);
         //Ahora se empieza a actualiar dato por dato similar al insertar
-        $Reporte->titulo=$request->titulo; //campos del json
+        //campos del json
         $Reporte->descripcion=$request->descripcion;
         $Reporte->observacion=$request->observacion;
+        $Reporte->fecha=$request->fecha;
         $Reporte->users_id=$request->users_id;
 
         //Este realiza la actualizacion en la bd.

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTareasTable extends Migration
+class CreateTableTareas extends Migration
 {
     /**
      * Run the migrations.
@@ -17,12 +17,10 @@ class CreateTareasTable extends Migration
             $table->increments('id');
             $table->String('tituloTarea');
             $table->String('prioridad');
-            $table->String('descripcion');
+            $table->text('descripcion');
             $table->String('estado');
             $table->date('fechaInicio');
             $table->date('fechaFin');
-            $table->time('horaInicio');
-            $table->time('horaFin');
             $table->integer('users_id')->unsigned();            
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
@@ -36,6 +34,6 @@ class CreateTareasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tareas');
+        Schema::dropIfExists('table_tareas');
     }
 }
