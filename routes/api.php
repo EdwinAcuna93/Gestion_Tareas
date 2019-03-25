@@ -29,9 +29,9 @@ Route::group([
 Route::group([
     'prefix' => 'tareas',
 ], function () {
-    Route::get('listar', 'TareasCDSAH\TareaController@prueba');
+    Route::post('listar', 'TareasCDSAH\TareaController@prueba');
     //listar todas las tareas de un usuario, por dia y por estado Pendiente
-    Route::post('diario', 'TareasCDSAH\TareaController@tareasDiariasPendientes');
+    Route::post('diario', 'TareasCDSAH\TareaController@tareasDiarias');
     //Listar todas las tareas de un usuario por dia y estado Finalizada
     Route::post('finalizado', 'TareasCDSAH\TareaController@tareasDiariasFinalizadas');
     //Listar todas las tareas de un usuario con estado No Cumplida
@@ -39,6 +39,8 @@ Route::group([
 
     Route::post('insertar', 'TareasCDSAH\TareaController@insertarTarea');
     Route::post('editar', 'TareasCDSAH\TareaController@editarTarea');
+    Route::post('editarEstado', 'TareasCDSAH\TareaController@editarEstadoTarea');
+
     Route::delete('eliminar', 'TareasCDSAH\TareaController@eliminarTarea');
     Route::get('buscar', 'TareasCDSAH\TareaController@buscarTareaPorId');
 

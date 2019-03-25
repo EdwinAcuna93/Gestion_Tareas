@@ -86,18 +86,22 @@ class TareaController extends Controller
         //
     }
 
-    public function prueba()
-    {
+    //Este metodo es para retornar todas las tareas absolutamente todas las tareas
+    public function prueba(){
         $dato= Tarea::all();
         return response()->json(["tarea"=>$dato]);
-        
-
     }
 
-    public function tareasDiariasPendientes(Request $request){
-        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
+    /*Este metodo es para retornar todas las tareas que pertenecen a la fecha que se recibe como parametro
+    y retorna un json que contiene un arreglo asociativo donde van todas las tareas encontradas pertenecientes
+    a la fecha definida, y el estado de la tarea se verifica a nivel de frontend.
+    */
+    public function tareasDiarias(Request $request){
+        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get(); 
         return response()->json(["tarea"=>$tareas]);
     }
+
+
 
     public function tareasDiariasFinalizadas(Request $request){
         $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->where('estado', 'Finalizada' )->get(); 
@@ -107,6 +111,7 @@ class TareaController extends Controller
     public function tareasNoCumplidas(Request $request){
         $tareas = Tarea::where('users_id', $request->users_id )->where('estado', 'No Cumplida' )->where('fechaFin', $request->fechaFin )->get(); 
         return response()->json(["tarea"=>$tareas]);
+        //return response($tareas);
     }
 
     
@@ -161,7 +166,7 @@ class TareaController extends Controller
        //Este realiza la actualizacion en la bd.
        try {
         $Tarea->save();
-        return response()->json("registro modificado con éxito");
+        return response()->json($Tarea->tituloTarea);
     }catch (\Throwable $th) {
         return response()->json("Error en la modificación del registro".$th);
     }  
@@ -182,4 +187,23 @@ class TareaController extends Controller
         
 
        } 
+
+
+
+        //FUNCION PARA REALIZAR LA ACTUALIZACION DEL ESTADO DE UNA TAREA
+    public function editarEstadoTarea(Request $request){ 
+        //Se busca el registro a buscar
+        $Tarea=Tarea::find($request->id);
+        //Ahora se empieza a actualiar dato por dato similar al insertar
+        $Tarea->estado=$request->estado;
+  
+        //Este realiza la actualizacion en la bd.
+        try {
+         $Tarea->save();
+         return response()->json($Tarea->tituloTarea);
+     }catch (\Throwable $th) {
+         return response()->json("Error en la modificación del registro".$th);
+     }  
+        }//fin del metodo editarTarea
+ 
 }
