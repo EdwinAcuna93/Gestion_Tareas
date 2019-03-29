@@ -15,10 +15,10 @@ class ReporteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index(){
-    //Retornamos todos los reportes
-    return response()->json(["Reporte"=>Reporte::all()]);
-        
+    public function index(request $request){
+        $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fecha )->get(); 
+        return response()->json(["reporte"=>$reportes]);
+      
     }
 
     /**
@@ -69,30 +69,32 @@ class ReporteController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * Metodo para actualizar el campo observacion de un reporte
+     *La idea es que este metodo sea accesible desde la vista maestro
+     *para que el maestro pueda dejar una observacion a cada reporte.
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
-    {
-        //Se busca el registro a buscar
-        $Reporte=Reporte::find($request->id);
-        //Ahora se empieza a actualiar dato por dato similar al insertar
-        //campos del json
-        $Reporte->descripcion=$request->descripcion;
-        $Reporte->observacion=$request->observacion;
-        $Reporte->fecha=$request->fecha;
-        $Reporte->users_id=$request->users_id;
 
-        //Este realiza la actualizacion en la bd.
-        try {
-         $Reporte->save();
-         return response()->json("Observación Agregada con Exito");
-     }catch (\Throwable $th) {
-         return response()->json("Operación no completada");
-     }
+
+    public function edit(){
+    //     //Se busca el r
+    //     $Reporte=Reporte::find($request->id);
+        
+    //     //Ahora se empieza a actualizar el campo observación de la bd
+    //     $Reporte->observacion=$request->observacion;
+        
+    //     //Se procede a realizar la actualizacion del 
+    //     try {
+    //      $Reporte->save();
+    //      return response()->json("Observación Agregada con Exito pio pio pio dijo el pollo");
+    //  }catch (\Throwable $th) {
+    //      return response()->json("Operación no completada");
+    //  }
+        return response("El pollo!!!!! EL pollo con una pata");
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -122,6 +124,38 @@ class ReporteController extends Controller
         $Reporte = Reporte::where('users_id', $request->id )->get(); 
         return response()->json(["reporte"=>$reporte]);
     }
+
+    public function reporteAnterior(Request $request){ 
+           
+        // try {   
+            
+        //          //Se busca el registro a buscar
+        //          $Reporte = Reporte::where('fecha', $request->fecha )->get(); 
+             
+        //      //Ahora se empieza a actualiar dato por dato similar al insertar   
+        //         //  foreach ($tareas as $key) {
+                     
+        //         //      $key->estado="Incumplida";
+        //         //      $key->update();
+        //         //  }
+        //          return response()->json($Reporte);
+                
+        // }catch (\Throwable $th) {
+        //         return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas".$th);
+        // } 
+
+        $Reporte = Reporte::select("*")->where("fecha",$request->fecha)->get();
+        // return response()->json($Reporte);
+
+        if ($Reporte != null) {
+            return response()->json("Fecha de ayer".$Reporte);
+        }else{
+            // $Reporte = Reporte::where('fecha', $request->fecha )->get();
+            return response()->json("Fecha Actual");
+        }
+            
+            
+ }
 
 
     

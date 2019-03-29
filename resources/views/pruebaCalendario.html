@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="stylesheet" href="Stilo.css"> 
+    
+    <title>Prueba Calendario</title>
+</head>
+<body>
+       
+
+                <div id="calendario">
+                    
+                </div>
+        
+<input id="mensaje" type="text" name="fecha">
+<button id="fecha">Ver fecha</button>
+
+<script>
+    var datoFecha;
+  $(document).ready(datos);
+
+
+
+
+  function datos() {
+      
+               
+
+                // $(function() 
+                // { $("#calendario").datepicker(
+                //         { 
+                //             dateFormat: "yy-mm-dd", 
+                //             onSelect:function (date){ 
+                //             $("#mensaje").val(date);
+                //         } 
+                //     }); 
+                // }); 
+                
+                // $("#calendario").datepicker();
+    
+                  $(function() { $("#calendario").datepicker({ dateFormat: "yy-mm-dd"}); 
+                 
+                 $("#calendario").on("change",
+                 function(){ 
+                     datoFecha = $(this).val(); 
+                     $("#mensaje").val(datoFecha); 
+                 
+                 }); });
+                
+                 $("#fecha").click(function(){
+                     alert("La fecha es: "+datoFecha);
+                     console.log(datoFecha);
+                 });
+
+                 
+
+                // var fet = document.querySelector('input[type="fecha"]');
+                    
+                // var valor = document.getElementById("calendario").value;
+                // console.log(valor);
+
+                // if(!fet == null){
+                //     console.log(fet);
+                // }else{
+                //     console.log("No tiene contenido");
+                // }
+                            }
+
+  function ok(r) {
+    
+  }
+
+  function error(r) {
+      alert("Error: "+r);
+  }
+</script>
+
+
+
+</body>
+</html>
