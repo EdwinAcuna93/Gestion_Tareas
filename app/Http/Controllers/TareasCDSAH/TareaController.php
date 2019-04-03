@@ -10,100 +10,24 @@ use App\User;
 use App\Model\TareasCDSAH\Reporte;
 class TareaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {   
-        
-        $datos=User::all();
-        return  response()->json(['datos'=>$datos]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
+    
 
     /*Este metodo es para retornar todas las tareas que pertenecen a la fecha que se recibe como parametro
     y retorna un json que contiene un arreglo asociativo donde van todas las tareas encontradas pertenecientes
     a la fecha definida, y el estado de la tarea se verifica a nivel de frontend.
     */
     public function tareasDiarias(Request $request){
+        //Obtenenos todas las tareas y todos los reportes de un usuario en la fecha que se requiere
         $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get();
-         $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fechaFin )->get();
+        $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fechaFin )->get();
         
-        
+        //retornamos un arreglo que contiene las tareas y los reportes
          return response()->json(["tarea"=>$tareas,"reporte"=>$reportes]);
-
-       
     }
 
-    //Metodo para insertar una nueva tarea que se inserta desde un formulario
+    /*Metodo para insertar una nueva tarea que se inserta desde un formulario
+    */
+
     public function insertarTarea(request $request){
     //Creamos una instancia del modelo
     $Tarea = new Tarea;

@@ -125,41 +125,5 @@ class ReporteController extends Controller
         return response()->json(["reporte"=>$reporte]);
     }
 
-
-    
-
-    public function reporteAnterior(Request $request){ 
-           
-        // try {   
-            
-        //          //Se busca el registro a buscar
-        //          $Reporte = Reporte::where('fecha', $request->fecha )->get(); 
-             
-        //      //Ahora se empieza a actualiar dato por dato similar al insertar   
-        //         //  foreach ($tareas as $key) {
-                     
-        //         //      $key->estado="Incumplida";
-        //         //      $key->update();
-        //         //  }
-        //          return response()->json($Reporte);
-                
-        // }catch (\Throwable $th) {
-        //         return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas".$th);
-        // } 
-
-        $Reporte = Reporte::select("*")->where("fecha",$request->fecha)->get();
-        // return response()->json($Reporte);
-
-        if ($Reporte != null) {
-            return response()->json("Fecha de ayer".$Reporte);
-        }else{
-            // $Reporte = Reporte::where('fecha', $request->fecha )->get();
-            return response()->json("Fecha Actual");
-        }
-            
-            
- }
-
-
-    
+   
 }
