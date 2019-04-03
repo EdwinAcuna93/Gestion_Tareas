@@ -30,34 +30,34 @@ Route::group([
 ], function () {
     
     //listar todas las tareas de un usuario, por dia y por estado Pendiente ademas  ahora devuelve los reportes tambien
-    Route::post('diario', 'TareasCDSAH\TareaController@tareasDiarias');
+    Route::get('tareasDiarias', 'TareasCDSAH\TareaController@tareasDiarias');
 
     //Ruta para insertar una nueva tarea
-    Route::post('insertar', 'TareasCDSAH\TareaController@insertarTarea');
+    Route::post('insertarTarea', 'TareasCDSAH\TareaController@insertarTarea');
 
 
     //Ruta para editar tareas
-    Route::post('editar', 'TareasCDSAH\TareaController@editarTarea');
+    Route::put('editarTarea', 'TareasCDSAH\TareaController@editarTarea');
 
     //Ruta para buscar tarea por id
-    Route::get('buscar', 'TareasCDSAH\TareaController@buscarTareaPorId');
+    Route::get('buscarTarea', 'TareasCDSAH\TareaController@buscarTareaPorId');
 
 
     //Ruta para cambiar el estado de una tarea de pendiente a terminada
-    Route::post('editarEstado', 'TareasCDSAH\TareaController@editarEstadoTarea');
+    Route::put('editarEstado', 'TareasCDSAH\TareaController@editarEstadoTarea');
 
 
     //Ruta que invoca al metodo para eliminar una tarea
-    Route::delete('eliminar', 'TareasCDSAH\TareaController@eliminarTarea');
+    Route::delete('eliminarTarea', 'TareasCDSAH\TareaController@eliminarTarea');
     
 
     //Esta ruta es para actualizar el estado de pendiente a incumplida al dar click en el boton de generar reporte
-    Route::post('prueba', 'TareasCDSAH\TareaController@editarEstadoTareaMultiple');
+    Route::put('editarEstadoMultiple', 'TareasCDSAH\TareaController@editarEstadoTareaMultiple');
 
     //Esta ruta es para actulizar el estado de las tareas pendientes de dias atras que se ejecuta al cargar la pagina.
-    Route::post('prueba2', 'TareasCDSAH\TareaController@editarEstadoTareaDiasAtras');
+    Route::put('editarEstadoDiasAtras', 'TareasCDSAH\TareaController@editarEstadoTareaDiasAtras');
 
-
+    //Esta ruta es algo provisional
     Route::get('usuarios', 'TareasCDSAH\TareaController@index');
 
 });

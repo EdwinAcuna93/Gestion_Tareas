@@ -11,7 +11,14 @@ use App\Model\TareasCDSAH\Reporte;
 class TareaController extends Controller
 {
     
+    public function index()
+    {   
+        $datos=User::all();
+        return  response()->json(['datos'=>$datos]);
+    }
 
+
+    
     /*Este metodo es para retornar todas las tareas que pertenecen a la fecha que se recibe como parametro
     y retorna un json que contiene un arreglo asociativo donde van todas las tareas encontradas pertenecientes
     a la fecha definida, y el estado de la tarea se verifica a nivel de frontend.
