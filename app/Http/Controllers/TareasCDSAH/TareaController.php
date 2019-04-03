@@ -15,9 +15,11 @@ class TareaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(request $request)
-    {
+    public function index()
+    {   
         
+        $datos=User::all();
+        return  response()->json(['datos'=>$datos]);
     }
 
     /**

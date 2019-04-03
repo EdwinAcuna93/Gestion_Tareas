@@ -59,7 +59,8 @@ Route::group([
     Route::post('prueba2', 'TareasCDSAH\TareaController@editarEstadoTareaDiasAtras');
 
 
-  
+    Route::get('usuarios', 'TareasCDSAH\TareaController@index');
+
 });
 
 Route::group([
