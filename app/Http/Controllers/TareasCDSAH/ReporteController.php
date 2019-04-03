@@ -125,6 +125,9 @@ class ReporteController extends Controller
         return response()->json(["reporte"=>$reporte]);
     }
 
+
+    
+
     public function reporteAnterior(Request $request){ 
            
         // try {   
