@@ -21,7 +21,6 @@ Route::group([
     Route::get('logout', 'AuthController@logout');
     Route::get('refresh', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
-    Route::get('productos','ProductoController@all');
     Route::resource('roles', 'RolController');
     Route::resource('user', 'UserController');
 });
