@@ -18,63 +18,120 @@ class TareaController extends Controller
     }
 
 
-    
+
     /*Este metodo es para retornar todas las tareas que pertenecen a la fecha que se recibe como parametro
     y retorna un json que contiene un arreglo asociativo donde van todas las tareas encontradas pertenecientes
     a la fecha definida, y el estado de la tarea se verifica a nivel de frontend.
     */
     public function tareasDiarias(Request $request){
         //Obtenenos todas las tareas y todos los reportes de un usuario en la fecha que se requiere
-        $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->get();
-        $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fechaFin )->get();
-        
-        //retornamos un arreglo que contiene las tareas y los reportes
-         return response()->json(["tarea"=>$tareas,"reporte"=>$reportes]);
+        if ($request->users_id!=null && $request->fecha!=null ){
+            try {
+                $tareas = Tarea::where('users_id', $request->users_id )->where('fecha', $request->fecha )->get();
+                $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fecha )->get();
+                return response()->json(["tarea"=>$tareas,"reporte"=>$reportes]);
+
+        }catch (\Throwable $th) {
+            return response()->json("Error al obtener los datos");
+        }
+            
+        } else {
+            return response()->json("No ha enviado los parametros necesarios para realizar la consulta");
+        }    
     }
 
     /*Metodo para insertar una nueva tarea que se inserta desde un formulario
     */
-
     public function insertarTarea(request $request){
+
+    //Esta variable es la que se enviara en el responso con la respuesta a cada caso posible
+    $mensaje="";    
     //Creamos una instancia del modelo
     $Tarea = new Tarea;
-    //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
-    $Tarea->tituloTarea=$request->tituloTarea; //campos del json
-    $Tarea->prioridad=$request->prioridad;
-    $Tarea->descripcion=$request->descripcion;
-    $Tarea->estado=$request->estado;
-    $Tarea->fechaInicio=$request->fechaInicio;
-    $Tarea->fechaFin=$request->fechaFin;
-    $Tarea->users_id=$request->users_id;
+    //Obtenemos la fecha actual del servidor para comparar con la fecha que queremos insertar la tarea
+    $fechaActual = date("Y-m-d");
 
-    try {
-        $Tarea->save();
-        return response()->json("Tarea insertada con éxito");
-    }catch (\Throwable $th) {
-        return response()->json("Error al insertar la tarea");
+    //Validamos que los campos a insertar no sean nulos
+    if ($request->tituloTarea && $request->prioridad && $request->descripcion && $request->fecha && $request->users_id!=NULL  ) {
+    
+      //Validamos que la fecha de la tarea a insertar sea mayor o igual a la fecha actual.
+        if ($request->fecha>=$fechaActual) {
+
+           //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere        
+            $Tarea->tituloTarea=$request->tituloTarea; //campos del json
+            $Tarea->prioridad=$request->prioridad;
+            $Tarea->descripcion=$request->descripcion;
+            //Por defecto las nuevas tareas se insertan con estado pendiente
+            $Tarea->estado='Pendiente';
+            $Tarea->fecha=$request->fecha;
+            $Tarea->users_id=$request->users_id;
+
+            //Procedemos a intentar realizar la insercion de la bd
+            try {
+                $Tarea->save();
+                $mensaje="Tarea insertada con éxito";
+
+            }catch (\Throwable $th) {
+                $mensaje="Ocurrio un error interno al insertar la tarea";
+            }
+            
+        } else {  
+             $mensaje="La fecha para insertar una tarea debe ser mayor o igual al dia actual";
+        }
+        
+    } else {
+        $mensaje="Error en la inserción, no se puede contener campos nulos";
     }
+        return response()->json($mensaje);
     }
+
 
 
     //Funcion para editar una tarea, edita todos los campos y solo es accesible desde la vista administrador
-    public function editarTarea(Request $request){ 
-       //Se busca el registro a buscar
-       $Tarea=Tarea::find($request->id);
-       //Ahora se empieza a actualiar dato por dato similar al insertar
-       $Tarea->tituloTarea=$request->tituloTarea; //campos del json
-       $Tarea->prioridad=$request->prioridad;
-       $Tarea->descripcion=$request->descripcion;
-       $Tarea->estado=$request->estado;
-       $Tarea->fechaInicio=$request->fechaInicio;
-       $Tarea->fechaFin=$request->fechaFin;
-       $Tarea->users_id=$request->users_id;
-       //Este realiza la actualizacion en la bd.
-       try {
-        $Tarea->save();
-        return response()->json($Tarea->tituloTarea);
-        }catch (\Throwable $th) {
-        return response()->json("Error en la modificación del registro".$th);
-        }  
+    public function editarTarea(Request $request){
+
+         $mensaje="";
+        //Verificamos que el parametro id no sea nullo y que sea numerico para proceder a buscar el elemento en la bd
+        if ($request->id!=NULL && is_numeric($request->id)) {
+            
+            //En la variable tarea se almacena el objeto a modificar
+            $Tarea=Tarea::find($request->id);
+            
+            //Capturamos la fecha actual para compararla con la nueva que se quiere modificar
+            $fechaActual = date("Y-m-d");
+
+            if ($request->fecha!=NULL && $request->fecha>=$fechaActual) {
+
+                if ($request->tituloTarea && $request->prioridad && $request->descripcion  && $request->users_id!=NULL ) {
+                    //Ahora se empieza a actualizar dato por dato similar al insertar
+                       $Tarea->tituloTarea=$request->tituloTarea; 
+                       $Tarea->prioridad=$request->prioridad;
+                       $Tarea->descripcion=$request->descripcion;
+                       $Tarea->estado=$request->estado;
+                       $Tarea->fecha=$request->fecha;
+                       $Tarea->users_id=$request->users_id;
+       
+                       try {
+                           $Tarea->save();
+                           $mensaje="Tarea modificada con éxito";
+                           }catch (\Throwable $th) {
+                           $mensaje="Ocurrió un error interno al modificar la tarea";
+                           }  
+       
+                   } else {
+                         $mensaje="Error en la inserción, no se puede contener campos nulos al modificar la tarea";         
+                   }
+                
+            } else {
+
+                $mensaje="La fecha para modificar una tarea debe ser mayor o igual al dia actual";
+            }
+        
+        } else {
+           $mensaje="Error, no ha enviado el id de la tarea a editar o el parametro enviado no es numerico";
+        }
+        return response()->json($mensaje);
+        
     }//fin del metodo editarTarea
 
 
@@ -95,16 +152,16 @@ class TareaController extends Controller
         //Se realiza la eliminacion del registro.
         try{
             $Tarea->delete();
-            return response()->json("Registro Eliminado con exito");
+            return response()->json("Tarea Eliminada con exito");
         }catch (\Throwable $th) {
-            return response()->json("Error al eliminar el registro");
+            return response()->json("Error al eliminar la tarea");
         }  
     } //fin del metodo eliminarTarea
 
 
 
    //Este metodo cambia el estado de pendiente a finalizada de las tareas, se ejecuta para cambiar el estado de la tarea
-   //por parte del usuario en la vista princiapl   Estado Pendiente---> Estado Terminada
+   //por parte del usuario en la vista princiapal   Estado Pendiente---> Estado Terminada
 
     public function editarEstadoTarea(Request $request){ 
         //Se busca el registro a cambiar el estado
@@ -115,9 +172,9 @@ class TareaController extends Controller
         //Este realiza la actualizacion en la bd.
         try {
          $Tarea->save();
-         return response()->json($Tarea->tituloTarea);
+         return response()->json();
          }catch (\Throwable $th) {
-         return response()->json("Error en la modificación del registro".$th);
+         return response()->json("Error en la modificación del registro");
          }  
     }//fin del metodo editarTarea
 
@@ -130,7 +187,7 @@ class TareaController extends Controller
            
             try {
                  //Se buscan todas las tareas con etado pendiente
-             $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
+             $tareas = Tarea::where('users_id', $request->users_id )->where('fecha', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
              
              //Ahora se empieza a actualiar dato por dato similar al insertar   
                  foreach ($tareas as $key) {
@@ -155,7 +212,8 @@ class TareaController extends Controller
            
             try {
                      //Se busca el registro a buscar
-                 $tareas = Tarea::where('users_id', $request->users_id )->where('fechaFin','<', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
+                     //Luis: modifiqué de el campo de fechaFin a fecha abril4,2019
+                 $tareas = Tarea::where('users_id', $request->users_id )->where('fecha','<', $request->fecha )->where('estado', 'Pendiente' )->get(); 
                  
                  //Ahora se empieza a actualiar dato por dato similar al insertar   
                      foreach ($tareas as $key) {
@@ -163,14 +221,14 @@ class TareaController extends Controller
                          $key->estado="Incumplida";
                          $key->update();
                      }
-                     return response()->json("Todas las tareas de dias anteriores al actual con estado pendiente se movió a estado incumplidas  ");
+                     return response()->json("Todas las tareas de dias anteriores al actual con estado pendiente se movió a estado incumplidas");
                     
             }catch (\Throwable $th) {
-                    return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas".$th);
+                    return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas");
             } 
                 
                 
-     }
+     }  
     
  
 }//Fin de la clase

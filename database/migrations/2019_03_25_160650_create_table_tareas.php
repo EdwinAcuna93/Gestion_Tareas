@@ -19,8 +19,7 @@ class CreateTableTareas extends Migration
             $table->String('prioridad');
             $table->text('descripcion');
             $table->String('estado');
-            $table->date('fechaInicio');
-            $table->date('fechaFin');
+            $table->date('fecha');
             $table->integer('users_id')->unsigned();            
             $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();

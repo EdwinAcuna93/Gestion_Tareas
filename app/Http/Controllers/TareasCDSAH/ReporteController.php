@@ -17,8 +17,7 @@ class ReporteController extends Controller
 
     public function index(request $request){
         $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fecha )->get(); 
-        return response()->json(["reporte"=>$reportes]);
-      
+        return response()->json(["reporte"=>$reportes]); 
     }
 
     /**
@@ -40,20 +39,30 @@ class ReporteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+    //Esta variable es la que se enviara en el responso con la respuesta a cada caso posible
+     $mensaje="";    
      //Creamos una instancia del modelo de reporte
      $Reporte = new Reporte;
-     //Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
-     $Reporte->descripcion=$request->descripcion;
-     $Reporte->observacion=$request->observacion;
-     $Reporte->fecha=$request->fecha;
-     $Reporte->users_id=$request->users_id;
- 
-     try {
-         $Reporte->save();
-         return response()->json("registro insertado bien hecho don human");
-     }catch (\Throwable $th) {
-         return response()->json("Registro no insertado la regaste don human");
+     if (  $request->descripcion && $request->fecha &&  $request->users_id !=NULL ) {
+      // Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
+        $Reporte->descripcion=$request->descripcion;
+        $Reporte->observacion=" ";
+        $Reporte->fecha=$request->fecha;
+        $Reporte->users_id=$request->users_id;
+
+        try {
+            $Reporte->save();
+            $mensaje="Reporte insertado con éxito";
+            
+        }catch (\Throwable $th) {
+            $mensaje="Error en la inserción del reporte";
+        }
+     } else {
+         $mensaje="Revise los datos que esta enviando para la insercion del reporte";
      }
+     
+
+     return response()->json($mensaje);
     
     }
 
@@ -78,20 +87,7 @@ class ReporteController extends Controller
 
 
     public function edit(){
-    //     //Se busca el r
-    //     $Reporte=Reporte::find($request->id);
-        
-    //     //Ahora se empieza a actualizar el campo observación de la bd
-    //     $Reporte->observacion=$request->observacion;
-        
-    //     //Se procede a realizar la actualizacion del 
-    //     try {
-    //      $Reporte->save();
-    //      return response()->json("Observación Agregada con Exito pio pio pio dijo el pollo");
-    //  }catch (\Throwable $th) {
-    //      return response()->json("Operación no completada");
-    //  }
-        return response("El pollo!!!!! EL pollo con una pata");
+    
     }
 
 
@@ -103,10 +99,26 @@ class ReporteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    public function update(Request $request){
+        $mensaje="";
+
+        //Se busca el reporte a editar
+        if ($request->id && $request->observacion!=NULL and is_numeric($request->id)) {
+            
+            $Reporte=Reporte::find($request->id);
+            $Reporte->observacion=$request->observacion;
+
+            try {
+                $Reporte->save();
+                $mensaje="Observación Agregada con Exito";
+            }catch (\Throwable $th) {
+                $mensaje="Ocurrió un error interno al insertar la observación";
+            }
+            
+        } else {
+            $mensaje="No ha enviado los campos necesarios para actualizar el reporte";
+        }
+    }// final del metodo update 
 
     /**
      * Remove the specified resource from storage.
@@ -121,8 +133,8 @@ class ReporteController extends Controller
 
 
     public function buscarReportePorId(Request $request){
-        $Reporte = Reporte::where('users_id', $request->id )->get(); 
-        return response()->json(["reporte"=>$reporte]);
+        $Reporte = Reporte::where('id', $request->id )->get(); 
+        return response()->json(["reporte"=>$Reporte]);
     }
 
    

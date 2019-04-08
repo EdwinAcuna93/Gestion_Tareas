@@ -60,13 +60,17 @@ Route::group([
     //Esta ruta es algo provisional
     Route::get('usuarios', 'TareasCDSAH\TareaController@index');
 
+   
+
 });
 
 Route::group([
     'prefix' => 'reportes',
 ], function () {
-    Route::post('listar', 'TareasCDSAH\ReporteController@index');
-    Route::post('insertar', 'TareasCDSAH\ReporteController@store');
-    Route::get('modificar', 'TareasCDSAH\ReporteController@edit');
-    Route::post('anterior', 'TareasCDSAH\ReporteController@reporteAnterior');
+   
+    //Ruta para buscar un reporte por id y poder cargar los datos en un form 
+    Route::get('buscarReporte', 'TareasCDSAH\ReporteController@buscarReportePorId');
+      // Route::post('listar', 'TareasCDSAH\ReporteController@index');
+     Route::post('insertar', 'TareasCDSAH\ReporteController@store');
+     Route::put('modificarReporte', 'TareasCDSAH\ReporteController@update');
 });
