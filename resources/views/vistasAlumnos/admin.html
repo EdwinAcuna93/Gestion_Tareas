@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    
+
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
+    
+    <!-- incluir los archivos de peticiones ajax para las tareas -->
+    
+    
+    
+
+    <!-- Plugin del buscador y paginacion -->
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+        <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <style>
+        .margen{
+            margin-top: 80px;
+        }
+        
+
+        #ContenedorTaresDiarias{
+            width: 730px;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .boxContenedor{
+            width: 550px;
+            height: 250px;
+            overflow-y: auto;
+        }
+        
+        button:hover{
+            background-color: rgb(129, 129, 122);
+            color: white;
+        }
+
+
+        /* .borde{
+            border-radius: 15px;
+        } */
+
+        /* .bordeBoton{
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        } */
+        
+    </style>
+    <title>Admin</title>
+</head>
+<body>
+       
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+        <a class="navbar-brand">Brand</a>
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="my-nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Item 1 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Item 2</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid margen">
+        <div class="row">
+
+       
+        <!-- ************************ Contenedor Central ******************************** -->
+            
+
+            <div class="container">
+                    <table class="table table-bordered text-center" id="mostrar">
+                            <thead class="bg-primary text-white">
+                                <th>Id</th>
+                                <th>Nombre usuario</th>
+                                <th>Correo</th>
+                                <th>Acciones</th>
+                            </thead>
+                            <tbody id="mostrarUsuarios">
+                                   
+                            </tbody>
+                        </table>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#mostrar').DataTable( {
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ ",
+                    "zeroRecords": "Datos no encontrados - upss",
+                    "info": "Mostar paginas _PAGE_ de _PAGES_",
+                    "infoEmpty": "Datos no encontrados",
+                    "infoFiltered": "(Filtrados por _MAX_ total registros)",
+                    "search":         "Buscar:",
+                    "paginate": {
+                            "first":      "First",
+                            "last":       "Anterior",
+                            "next":       "Siguiente",
+                            "previous":   "Anterior"
+                    },
+                    "bDestroy":true,
+                    "iDisplayLength":10,
+                    "searching": false
+                    
+                    
+                }
+            } );
+
+           
+            
+} );
+
+
+$.ajax({
+        method:"get",
+        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/usuarios",
+        success:usuarios,
+        error:errorUsuarios
+    });
+
+function usuarios(u){
+    console.log(u.datos);
+    let listar = u.datos;
+    var t = $('#mostrar').DataTable();
+ 
+        listar.forEach(element => {
+            t.row.add( [
+                element.id,
+                element.name,
+                element.email,
+                '<button id='+element.id+' onclick="enviar('+ element.id+',\''+element.name+'\')" class="btn btn-secondary btn-sm" >Ver perfil del alumno</button>'
+             ] ).draw( false );
+        });
+
+}
+
+function errorUsuarios(e){
+    alert("Error "+e);
+}
+
+function enviar(id, name){
+    console.log(id);
+    console.log(name);
+    //window.open('diseño.html', dato);//resolucion de la ventana
+    document.location.href = "alumno.html?="+id+'='+name;
+}
+       
+    </script>
+    
+</body>
+</html>

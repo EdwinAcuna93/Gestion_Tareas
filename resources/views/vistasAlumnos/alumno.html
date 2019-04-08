@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="asets/css/Stilo.css"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
+    
+    
+    <style>
+        .margen{
+            margin-top: 80px;
+        }
+        
+
+        #ContenedorTaresDiarias{
+            width: 800px;
+            height: 500px;
+            overflow-y: auto;
+        }
+
+        .boxContenedor{
+            width: 550px;
+            height: 250px;
+            overflow-y: auto;
+        }
+        
+        button:hover{
+            background-color: rgb(129, 129, 122);
+            color: white;
+        }
+
+
+        /* .borde{
+            border-radius: 15px;
+        } */
+
+        /* .bordeBoton{
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        } */
+        
+    </style>
+    <title>Alumno</title>
+</head>
+<body>
+       
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
+        <a class="navbar-brand">Brand</a>
+        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="my-nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Item 1 <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Item 2</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid margen">
+        <div class="row">
+
+        <!-- ************************ Contenedor Izquierdo ******************************** -->
+            <div class="col-3">
+
+            <div class="offset-1 btn-group btn-group-toggle col-10">
+                    <button  onclick="window.location='admin.html'" class="btn btn-primary p-2 " title="Ver Alumnos"><i class="fas fa-users"></i></button>
+                    <button  class="btn btn-primary p-2 " data-toggle="modal" data-target="#agregarTarea" title="Agregar Tarea"><i class="fas fa-plus"></i></button>  
+            </div>
+            <br><br>
+            <!-- ************************ Calendario ******************************** -->                
+                <div id="calendario" class="col-12 boxContenedor" >
+
+                </div>
+                
+                <hr>
+
+            <!-- *********************Reportes***************************************** -->
+                <h4 class="text-center">Reportes</h4>
+                    <div id="reportes" class="col-12 boxContenedor">
+
+                    </div>
+            </div>
+
+
+        <!-- ************************ Contenedor Central ******************************** -->
+            <div class="col-6">
+
+            <!-- ************************ Tareas Pendientes ******************************** -->
+                <h1 class="text-center">Tareas Diarias</h1>
+                <div id="ContenedorTaresDiarias">
+                    <div class="col-12 text-white" id="EstadoPendiente">
+
+                    </div>
+
+                    
+                </div>
+                
+                <br>
+
+                
+            </div>
+
+
+    <!-- ************************ Contenedor Derecho ******************************** -->            
+            <div class="col-3">
+
+                <!-- ************************ Tareas Finalizadas ******************************** -->
+                    <h4 class="text-center">Tareas Finalizadas</h4>
+                <div class="col-12 boxContenedor">
+                    
+                    <div id="EstadoFinalizada" class="text-white">
+                           
+                    </div>
+                </div>
+                <hr>
+
+                <!-- ************************ Tareas  No terminadas ******************************** -->
+                <h4 class="text-center">Tareas No Terminadas</h4>
+                <div class="col-12 boxContenedor">
+                       
+                    <div id="EstadoNoTerminadas" class="text-white">
+                               
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal  Agregar Tareas-->
+    <div class="modal fade" id="agregarTarea" tabindex="-1" role="dialog" aria-labelledby="agregarTareaLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Agregar una Tarea</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Titulo de Tarea</label>        
+                <input class="form-control" type="text" id="tituloTarea" name="tituloTarea" placeholder="Nombre de la Tarea"><br>
+        
+                <label for="">Prioridad</label>        
+                <select id="prioridad" name="prioridad"  class="form-control">
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select><br>
+
+                <label for="">Descripcion</label>        
+                <textarea class="form-control" id="descripcion" name="descripcion" placeholder="Descripción de la Tarea" cols="57" rows="5"></textarea><br>
+                
+                <label for="">Fecha de Entrega</label>
+                <input class="form-control" type="date" id="fecha" name="fecha" placeholder="Fecha de Entrega"><br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" id="submit" name="submit" class="btn btn-primary" data-dismiss="modal">Agregar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para modificar -->
+    <div class="modal fade" id="modificarTarea" tabindex="-1" role="dialog" aria-labelledby="modificarTareaLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+            <h5 class="modal-title text-white" id="exampleModalLabel">Modificar una Tarea</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Titulo de Tarea: </label>
+                <input class="form-control" type="text" id="tituloTareaM"><br>
+                
+                <label for="">Prioridad</label>            
+                <select id="prioridadM" name="prioridad" class="form-control">
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select><br>
+        
+                <label for="">Descripcion</label>            
+                <textarea class="form-control" id="descripcionM" name="descripcion" cols="57" rows="5"></textarea><br>
+        
+                <label for="">Estado</label>    
+                <select id="estadoM" name="estado" class="form-control">                
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Finalizada">Finalizada</option>
+                    <option value="Vencida">Vencida</option>
+                </select><br>        
+        
+                <input type="hidden" id="idM" name="id" value="">
+        
+                <label for="">Fecha de Finalización</label>
+                <input class="form-control" type="date" id="fechaM" name="fecha"><br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" id="submit" onclick="modificar()" name="submit" class="btn btn-primary" data-dismiss="modal">Modificar</button>          
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para eliminarr -->
+    <div class="modal fade" id="eliminarTarea" tabindex="-1" role="dialog" aria-labelledby="eliminarTareaLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+            <h5 class="modal-title text-white" id="exampleModalLabel">En verdad desea Eliminar esta tarea?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Titulo de Tarea</label>
+                <b><label for="" id="tituloTareaE"></label></b><br>
+                
+                <label for="">Prioridad</label>            
+                <b><label for="" id="prioridadE"></label></b><br>
+        
+                <label for="">Descripcion</label>            
+                <b><label for="" id="descripcionE"></label></b><br>
+        
+                <label for="">Estado</label>    
+                <b><label for="" id="estadoE"></label></b><br>     
+        
+                <input type="hidden" id="idE" name="idE" value="">
+        
+                <label for="">Fecha de Finalización</label>
+                <b><label for="" id="fechaE"></label></b><br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>          
+            <button name="eliminar" id="eliminar" onclick="eliminar()" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Modal para modificar Reasignar una tarea -->
+    <div class="modal fade" id="reasignarTarea" tabindex="-1" role="dialog" aria-labelledby="modificarTareaLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-info">
+              <h5 class="modal-title text-white" id="exampleModalLabel">Reasignar una Tarea</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <label for="">Titulo de Tarea: </label>
+                <input class="form-control" disabled type="text" id="tituloTareaR" name="tituloTareaR" placeholder="Nombre de la Tarea"><br>
+                
+                <label for="">Prioridad</label>            
+                <select id="prioridadR" disabled name="prioridadR" class="form-control">
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select><br>
+        
+                <label for="">Descripcion</label>            
+                <!-- <input class="form-control" disabled type="text" id="descripcionR" name="descripcionR" placeholder="Descripción de la Tarea"><br> -->
+                <textarea class="form-control" disabled id="descripcionR" name="descripcionR" cols="57" rows="5"></textarea><br>
+
+                <label for="">Fecha de Finalización</label>
+                <input class="form-control" type="date" value="" id="fechaR" name="fechaR" placeholder="Fecha de Finalización"><br>
+                <input type="hidden" id="idR" name="idE" value="">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" id="submit" onclick="reAsignar()" name="submit" class="btn btn-primary" data-dismiss="modal">Re-Asignar</button>          
+            </div>
+          </div>
+        </div>
+    </div> 
+
+    <!-- Modal para modificar un reporte -->
+    <div class="modal fade" id="modificarReporte" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                <h5 class="modal-title text-white" id="exampleModalLongTitle">Modificar Reporte</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">             
+                    <label for="">Descripción</label>
+                    <input type="hidden" id="idMR">
+                    <input class="form-control" type="text" disabled name="descripcionMR" id="descripcionMR" required>
+                    <hr>            
+                    <div class="form-group">
+                        <label for="">Observación</label>
+                        <textarea class="form-control" name="descripcionMR" id="observacionMR" rows="3" cols="3"></textarea>
+                    </div>
+                    <hr>          
+                    <input class="form-control" type="hidden" disabled name="users_idMR" id="users_idMR" required>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" name="modif" id="modif" onclick="modifiReporte()" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  
+    <script src="asets/js/tareasPendientes.js"></script>
+    <script src="asets/js/tareasFinalizdas.js"></script>
+    <script src="asets/js/reportes.js"></script>
+    <script src="asets/js/agregarTarea.js"></script>
+    <script src="asets/js/modificarTarea.js"></script>
+    <script src="asets/js/eliminarTarea.js"></script>
+    <script src="asets/js/reAsignar.js"></script>
+    <script src="asets/js/modificarReporte.js"></script>
+
+</body>
+</html>
