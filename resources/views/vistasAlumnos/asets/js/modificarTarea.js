@@ -55,15 +55,34 @@ function modificar(){
 }
 
 function modificarTarea(m){
-    Swal.fire(
-        'Exito!',
-        m,
-        'success'
-      )
+    // Swal.fire(
+    //     'Exito!',
+    //     m,
+    //     'success'
+    //   )
    // alert(m);
+   
+   if(m=="Tarea modificada con éxito"){
+        Swal.fire(
+            'Exito!',
+            m,
+            'success'
+        )
+    }else{
+        Swal.fire(
+            'Error!',
+            m,
+            'error'
+        )
+    }
+
     datos();
 }
 
 function errorModificar(e){
-    alert(e);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
 }

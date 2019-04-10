@@ -43,15 +43,36 @@ function eliminar(){
 }
 
 function eliminarTarea(m){
-    Swal.fire(
-        'Exito!',
-        m,
-        'success'
-      )
+    // Swal.fire(
+    //     'Exito!',
+    //     m,
+    //     'success'
+    //   )
    // alert(m);
+    // 
+
+    if(m=="Tarea eliminada con éxito"){
+        Swal.fire(
+            'Exito!',
+            m,
+            'success'
+        )
+    }else{
+        Swal.fire(
+            'Error!',
+            m,
+            'error'
+        )
+    }
+
     datos();
 }
 
 function errorEliminar(e){
-    alert("Error Eliminar:"+e);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
+    datos();
 }

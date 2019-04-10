@@ -16,10 +16,7 @@
 
     <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
     
-    <!-- incluir los archivos de peticiones ajax para las tareas -->
-    
-    
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
     <!-- Plugin del buscador y paginacion -->
         <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -64,22 +61,20 @@
 <body>
        
     <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
-        <a class="navbar-brand">Brand</a>
-        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div id="my-nav" class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Item 1 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-white" href="#" >
+                        <i class="fas fa-home"></i> Home
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Item 2</a>
+                <li class="nav-item active">
+                    <div class="nav-link text-white" id="usuario"></div>
                 </li>
             </ul>
         </div>
     </nav>
-    <div class="container-fluid margen">
+    <div class="container-fluid margen col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-8">
         <div class="row">
 
        
@@ -157,7 +152,12 @@ function usuarios(u){
 }
 
 function errorUsuarios(e){
-    alert("Error "+e);
+    // alert("Error Usuarios"+e);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
 }
 
 function enviar(id, name){

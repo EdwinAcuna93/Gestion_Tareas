@@ -24,6 +24,10 @@ function modificado(t) {
 
 //funcion para verificar si la funcion no cambio a finalizada
 function errorModificar(e) {
-    alert("Error: "+e);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
     
 }

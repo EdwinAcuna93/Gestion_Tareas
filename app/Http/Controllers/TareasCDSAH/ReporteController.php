@@ -46,6 +46,8 @@ class ReporteController extends Controller
      if (  $request->descripcion && $request->fecha &&  $request->users_id !=NULL ) {
       // Esto accede a la propiedades de la tarea y lo inserta lo que viene en la data que es un arreglo asociativo  entonces se accede a la propiedad que se quiere
         $Reporte->descripcion=$request->descripcion;
+        //El campo observación se envia vacio porque al insertar un reporte el alumno no puede generar una observacion. solo el docente
+        //cuando modifica un reporte puede llenar el campo de observación.
         $Reporte->observacion=" ";
         $Reporte->fecha=$request->fecha;
         $Reporte->users_id=$request->users_id;
@@ -110,7 +112,7 @@ class ReporteController extends Controller
 
             try {
                 $Reporte->save();
-                $mensaje="Observación Agregada con Exito";
+                $mensaje="Observación agregada con éxito";
             }catch (\Throwable $th) {
                 $mensaje="Ocurrió un error interno al insertar la observación";
             }
@@ -118,6 +120,8 @@ class ReporteController extends Controller
         } else {
             $mensaje="No ha enviado los campos necesarios para actualizar el reporte";
         }
+
+        return response()->json($mensaje);
     }// final del metodo update 
 
     /**

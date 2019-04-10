@@ -24,8 +24,8 @@
         
 
         #ContenedorTaresDiarias{
-            width: 800px;
-            height: 500px;
+            /* width: 800px;
+            height: 500px; */
             overflow-y: auto;
         }
 
@@ -56,17 +56,15 @@
 <body>
        
     <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
-        <a class="navbar-brand">Brand</a>
-        <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div id="my-nav" class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Item 1 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-white" href="#" >
+                        <i class="fas fa-home"></i> Home
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Item 2</a>
+                <li class="nav-item active">
+                    <div class="nav-link text-white" id="usuario"></div>
                 </li>
             </ul>
         </div>
@@ -75,9 +73,9 @@
         <div class="row">
 
         <!-- ************************ Contenedor Izquierdo ******************************** -->
-            <div class="col-3">
+            <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
 
-            <div class="offset-1 btn-group btn-group-toggle col-10">
+            <div class="offset-1 btn-group btn-group-toggle col-10 ">
                     <button  onclick="window.location='admin.html'" class="btn btn-primary p-2 " title="Ver Alumnos"><i class="fas fa-users"></i></button>
                     <button  class="btn btn-primary p-2 " data-toggle="modal" data-target="#agregarTarea" title="Agregar Tarea"><i class="fas fa-plus"></i></button>  
             </div>
@@ -98,12 +96,12 @@
 
 
         <!-- ************************ Contenedor Central ******************************** -->
-            <div class="col-6">
+            <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
 
             <!-- ************************ Tareas Pendientes ******************************** -->
-                <h1 class="text-center">Tareas Diarias</h1>
-                <div id="ContenedorTaresDiarias">
-                    <div class="col-12 text-white" id="EstadoPendiente">
+                <h3 class="text-center">Tareas Diarias</h3>
+                <div id="ContenedorTaresDiarias" >
+                    <div class=" text-white" id="EstadoPendiente">
 
                     </div>
 
@@ -117,7 +115,7 @@
 
 
     <!-- ************************ Contenedor Derecho ******************************** -->            
-            <div class="col-3">
+            <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
 
                 <!-- ************************ Tareas Finalizadas ******************************** -->
                     <h4 class="text-center">Tareas Finalizadas</h4>
@@ -331,7 +329,6 @@
   
     <script src="asets/js/tareasPendientes.js"></script>
     <script src="asets/js/tareasFinalizdas.js"></script>
-    <script src="asets/js/reportes.js"></script>
     <script src="asets/js/agregarTarea.js"></script>
     <script src="asets/js/modificarTarea.js"></script>
     <script src="asets/js/eliminarTarea.js"></script>

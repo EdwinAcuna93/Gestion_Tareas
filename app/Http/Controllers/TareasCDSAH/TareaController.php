@@ -82,7 +82,7 @@ class TareaController extends Controller
     } else {
         $mensaje="Error en la inserción, no se puede contener campos nulos";
     }
-        return response()->json($mensaje);
+     return response()->json($mensaje);  
     }
 
 
@@ -152,7 +152,7 @@ class TareaController extends Controller
         //Se realiza la eliminacion del registro.
         try{
             $Tarea->delete();
-            return response()->json("Tarea Eliminada con exito");
+            return response()->json("Tarea eliminada con éxito");
         }catch (\Throwable $th) {
             return response()->json("Error al eliminar la tarea");
         }  
@@ -187,7 +187,7 @@ class TareaController extends Controller
            
             try {
                  //Se buscan todas las tareas con etado pendiente
-             $tareas = Tarea::where('users_id', $request->users_id )->where('fecha', $request->fechaFin )->where('estado', 'Pendiente' )->get(); 
+             $tareas = Tarea::where('users_id', $request->users_id )->where('fecha', $request->fecha )->where('estado', 'Pendiente' )->get(); 
              
              //Ahora se empieza a actualiar dato por dato similar al insertar   
                  foreach ($tareas as $key) {

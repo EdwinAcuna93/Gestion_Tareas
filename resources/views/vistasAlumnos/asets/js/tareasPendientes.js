@@ -24,6 +24,8 @@ let url = document.location.href;
 let    idUsuario = url.split("=");
 let   User_id = idUsuario[1];
 let    name = idUsuario[2];
+let nombre = name.replace(/%20/, ' ');
+$('#usuario').append(nombre);
     // let id = 1;
 
 $(document).ready(datos);
@@ -45,18 +47,10 @@ function datos() {
                     fecha: datoFecha
                 },
                 success:pendiente,
-                error:error
+                error:errorTareas
             });
 
-            //verificar si no es la fecha actual bloquear el textArea y el boton de enviar reporte
-            if (miFecha == datoFecha) {
-                document.getElementById('enviarReporte').disabled=false;
-                document.getElementById('redactarReporte').disabled=false;
-            } else {
-                document.getElementById('enviarReporte').disabled=true;
-                document.getElementById('redactarReporte').disabled=true;
-            }
-
+            
         }); 
 
     });
@@ -71,7 +65,7 @@ function datos() {
             fecha: datoFecha
         },
         success:pendiente,
-        error:error
+        error:errorTareas
     });
 
     //Cambiar a tareas no cumplidas al entrar no borrar y decir a Edwin que cambie el nombre del metodo
@@ -175,7 +169,12 @@ function pendiente(r) {
 }
 
 //Funcion si la peticion ajax tiene algun error
-function error(r) {
-    alert("Error Tareas Pendientes: "+r);
+function errorTareas(r) {
+    // alert("Error Tareas Pendientes: "+r);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
     
 }

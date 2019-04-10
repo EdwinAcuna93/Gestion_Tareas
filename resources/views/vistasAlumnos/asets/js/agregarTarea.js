@@ -20,7 +20,6 @@ function agregar(){
     })
 }
 function mensaje(r){
-    // alert(r);
     if(r=="Tarea insertada con éxito"){
         Swal.fire(
             'Exito!',
@@ -37,5 +36,10 @@ function mensaje(r){
     datos();
 }
 function error(r){
-    alert('error'+r);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
+    datos();
 }

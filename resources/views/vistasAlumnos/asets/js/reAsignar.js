@@ -50,15 +50,27 @@ function reAsignar(){
 }
 
 function reAsignarTareaExito(m){
-    Swal.fire(
-        'Exito!',
-        m,
-        'success'
-      )
-   // alert(m);
+    if(m=="Tarea insertada con éxito"){
+        Swal.fire(
+            'Exito!',
+            m,
+            'success'
+          )
+    }else{
+        Swal.fire(
+            'Error!',
+            m,
+            'error'
+          )
+    }
     datos();
 }
 
 function errorReAsignar(e){
-    alert("Error Reasignar2: "+e);
+    Swal.fire(
+        'Error!',
+        'Falló la conexión',
+        'error'
+    )
+    datos();
 }
