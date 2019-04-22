@@ -2,9 +2,10 @@
 function buscarTareaEditar(id){
     $.ajax({
         method: 'get',
-        url:'http://192.168.32.132/Gestion_Tareas/public/api/tareas/buscarTarea',
+        url:'http://192.168.32.55/Gestion_Tareas/public/api/tareas/buscarTarea',
         data:{
             id:id
+            // token: token_desc
         },
         success:mostrarTarea,
         error:errorMostrar
@@ -33,11 +34,10 @@ function modificar(){
     let descripcion = $('#descripcionM').val();
     let estado = $('#estadoM').val();
     let fecha = $('#fechaM').val();
-
-    // console.log(fecha);
+    
     $.ajax({
         method:"put",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/editarTarea",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/editarTarea",
         data:{
             id: id,
             tituloTarea: titulo,
@@ -48,6 +48,7 @@ function modificar(){
             fecha: fecha,                
             
             users_id: User_id
+            // token: token_desc
         },
         success:modificarTarea,
         error:errorModificar
@@ -55,16 +56,9 @@ function modificar(){
 }
 
 function modificarTarea(m){
-    // Swal.fire(
-    //     'Exito!',
-    //     m,
-    //     'success'
-    //   )
-   // alert(m);
-   
    if(m=="Tarea modificada con éxito"){
         Swal.fire(
-            'Exito!',
+            'Éxito!',
             m,
             'success'
         )
@@ -75,7 +69,6 @@ function modificarTarea(m){
             'error'
         )
     }
-
     datos();
 }
 

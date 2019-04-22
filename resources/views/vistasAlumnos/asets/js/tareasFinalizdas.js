@@ -1,15 +1,12 @@
 //------------------------------------Modificar estado de la tarea a finalizada-----------------------------
 function modificarEstado(id) {
-    
-    // $("#"+id+"").toggleClass("bg-danger");
-
-    
     $.ajax({
         method:"put",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/editarEstado",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/editarEstado",
         data:{
             id: id,
             estado: "Finalizada",
+            // token: token_desc
         },
         success:modificado,
         error:errorModificar

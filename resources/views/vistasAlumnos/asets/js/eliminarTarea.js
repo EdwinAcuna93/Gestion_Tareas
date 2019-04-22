@@ -2,9 +2,10 @@
 function buscarTareaEliminar(id){
     $.ajax({
         method: 'get',
-        url:'http://192.168.32.132/Gestion_Tareas/public/api/tareas/buscarTarea',
+        url:'http://192.168.32.55/Gestion_Tareas/public/api/tareas/buscarTarea',
         data:{
             id:id
+            // token: token_desc
         },
         success:mostrarTareaEliminar,
         error:errorMostrarEliminar
@@ -29,13 +30,13 @@ function errorMostrarEliminar(e){
 function eliminar(){
     let id = $('#idE').val();
     console.log("Id Eliminar: "+id);
-
-    // console.log(fecha);
+    
     $.ajax({
         method:"delete",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/eliminarTarea",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/eliminarTarea",
         data:{
             id: id
+            // token: token_desc
         },
         success:eliminarTarea,
         error:errorModificar
@@ -43,17 +44,10 @@ function eliminar(){
 }
 
 function eliminarTarea(m){
-    // Swal.fire(
-    //     'Exito!',
-    //     m,
-    //     'success'
-    //   )
-   // alert(m);
-    // 
-
+    
     if(m=="Tarea eliminada con éxito"){
         Swal.fire(
-            'Exito!',
+            'Éxito!',
             m,
             'success'
         )

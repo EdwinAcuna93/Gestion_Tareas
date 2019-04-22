@@ -3,7 +3,7 @@ function buscarReasignar(id){
     console.log('Buscar tareas por id: '+id);
     $.ajax({
         method: 'get',
-        url:'http://192.168.32.132/Gestion_Tareas/public/api/tareas/buscarTarea',
+        url:'http://192.168.32.55/Gestion_Tareas/public/api/tareas/buscarTarea',
         data:{
             id:id
         },
@@ -35,7 +35,7 @@ function reAsignar(){
     // console.log(fecha);
     $.ajax({
         method:"post",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/insertarTarea",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/insertarTarea",
         data:{
             tituloTarea: $('#tituloTareaR').val(),
             prioridad: $('#prioridadR').val(),
@@ -52,7 +52,7 @@ function reAsignar(){
 function reAsignarTareaExito(m){
     if(m=="Tarea insertada con éxito"){
         Swal.fire(
-            'Exito!',
+            'Éxito!',
             m,
             'success'
           )

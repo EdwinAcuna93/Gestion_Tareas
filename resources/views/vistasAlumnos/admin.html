@@ -16,16 +16,21 @@
 
     <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
-
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script> -->
+    <script src="asets/js/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="asets/css/all.css">
+    <link rel="stylesheet" href="asets/css/styleMenu.css">
     <!-- Plugin del buscador y paginacion -->
         <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
         <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 
     <style>
-        .margen{
+        /* .margen{
             margin-top: 80px;
-        }
+        } */
         
 
         #ContenedorTaresDiarias{
@@ -59,21 +64,10 @@
     <title>Admin</title>
 </head>
 <body>
-       
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top">
-        <div id="my-nav" class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="#" >
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                </li>
-                <li class="nav-item active">
-                    <div class="nav-link text-white" id="usuario"></div>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <section id="app"> 
+        <menu-log :user="usuario"></menu-log>
+    </section><br>  
+
     <div class="container-fluid margen col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-8">
         <div class="row">
 
@@ -98,76 +92,11 @@
 
         </div>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $('#mostrar').DataTable( {
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ ",
-                    "zeroRecords": "Datos no encontrados - upss",
-                    "info": "Mostar paginas _PAGE_ de _PAGES_",
-                    "infoEmpty": "Datos no encontrados",
-                    "infoFiltered": "(Filtrados por _MAX_ total registros)",
-                    "search":         "Buscar:",
-                    "paginate": {
-                            "first":      "First",
-                            "last":       "Anterior",
-                            "next":       "Siguiente",
-                            "previous":   "Anterior"
-                    },
-                    "bDestroy":true,
-                    "iDisplayLength":10,
-                    "searching": false
-                    
-                    
-                }
-            } );
-
-           
-            
-} );
+<script src="asets/js/buscarAlumno.js"></script>
 
 
-$.ajax({
-        method:"get",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/usuarios",
-        success:usuarios,
-        error:errorUsuarios
-    });
-
-function usuarios(u){
-    console.log(u.datos);
-    let listar = u.datos;
-    var t = $('#mostrar').DataTable();
- 
-        listar.forEach(element => {
-            t.row.add( [
-                element.id,
-                element.name,
-                element.email,
-                '<button id='+element.id+' onclick="enviar('+ element.id+',\''+element.name+'\')" class="btn btn-secondary btn-sm" >Ver perfil del alumno</button>'
-             ] ).draw( false );
-        });
-
-}
-
-function errorUsuarios(e){
-    // alert("Error Usuarios"+e);
-    Swal.fire(
-        'Error!',
-        'Falló la conexión',
-        'error'
-    )
-}
-
-function enviar(id, name){
-    console.log(id);
-    console.log(name);
-    //window.open('diseño.html', dato);//resolucion de la ventana
-    document.location.href = "alumno.html?="+id+'='+name;
-}
-       
-    </script>
+<script src="asets/js/componenteMenu.js"></script>
+    
     
 </body>
 </html>

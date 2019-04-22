@@ -13,20 +13,19 @@ Date.prototype.toString = function() {
     //Valida si el dia es menor a 10 le agrega un cero
     if(dd<10) {
         dd='0'+dd;
-    }
-    
+    }    
     return yy+"/"+mm+"/"+dd; 
 }
 
-var miFecha = new Date(); 
-var datoFecha = miFecha ;
-let url = document.location.href;
-let    idUsuario = url.split("=");
-let   User_id = idUsuario[1];
-let    name = idUsuario[2];
-let nombre = name.replace(/%20/, ' ');
-$('#usuario').append(nombre);
-    // let id = 1;
+let miFecha = new Date(); //Llamar a la funcion Date
+let datoFecha = miFecha ;//Asignar a una variable el resultado de la funcion
+let url = document.location.href;//Obtener la url donde se envia el id y nombre del alumno
+let idUsuario = url.split("=");//Cortar la url cuando encuentre el signo de "="
+let User_id = idUsuario[1];//Obtener el valor del indice uno que contiene el id del alumno
+let name = idUsuario[2];//Obter el valor del indice dos que contiene el nombre del alumno
+let uri_dec = decodeURIComponent(name);//Decodificar el valor del nombre del alumno si tiene caracteres especiales
+$('#usuario').append(uri_dec);//Asignar el valor codificado del nombre del alumno al div con id usuario
+
 
 $(document).ready(datos);
 
@@ -41,28 +40,27 @@ function datos() {
             //Tareas Diarias y reportes
             $.ajax({
                 method:"get",
-                url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/tareasDiarias",
+                url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/tareasDiarias",
                 data:{
                     users_id: User_id,
                     fecha: datoFecha
+                    // token: token_desc
                 },
                 success:pendiente,
                 error:errorTareas
-            });
-
-            
+            });            
         }); 
-
     });
 
     
     //Tareas Diarias y reportes
     $.ajax({
         method:"get",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/tareasDiarias",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/tareasDiarias",
         data:{
             users_id: User_id,
             fecha: datoFecha
+            // token: token_desc
         },
         success:pendiente,
         error:errorTareas
@@ -71,13 +69,13 @@ function datos() {
     //Cambiar a tareas no cumplidas al entrar no borrar y decir a Edwin que cambie el nombre del metodo
     $.ajax({
         method:"put",
-        url:"http://192.168.32.132/Gestion_Tareas/public/api/tareas/editarEstadoDiasAtras",
+        url:"http://192.168.32.55/Gestion_Tareas/public/api/tareas/editarEstadoDiasAtras",
         data:{
-            users_id: 1,
+            users_id: User_id,
             fecha: datoFecha
+            // token: token_desc
         }
     });
-
 }
 
 //--------------------------------------Tareas Pendientes-----------------------------------------------
@@ -86,7 +84,7 @@ function pendiente(r) {
 
     let listar = r.tarea; //Asignar a la varianble listar el json de las tareas pendientes
     let reportesDiarios = r.reporte;//Asignar a la varianble reportesDiarios el json de las reportes diarios
-    console.log(r);
+   
     //Limpiar los contenedores
     $("#EstadoPendiente").html("");
     $("#EstadoFinalizada").html("");
@@ -97,6 +95,7 @@ function pendiente(r) {
 
         //Verificar el estado de la tarea si es pendiente, finalizada o no terminada
         switch (element.estado) {
+            //Generar las tareas pendientes
             case 'Pendiente':                    
                 $("#EstadoPendiente").append('<div class="card  border-primary ">'
                             +'<div id='+element.tituloTarea+' class="d-flex mb-3 bg-primary text-white">'
@@ -114,6 +113,7 @@ function pendiente(r) {
 
             break;
 
+            //Generar las tareas finalizadas
             case 'Finalizada':
                 $("#EstadoFinalizada").append('<div class="card  border-info ">'
                             +'<div  class="d-flex mb-3 bg-info text-white">'
@@ -125,6 +125,7 @@ function pendiente(r) {
                             +'</div><br>');
             break;
 
+            //Generar las tareas no terminadas
             case 'Incumplida':                 
                 $("#EstadoNoTerminadas").append('<div class="card  border-danger ">'
                             +'<div class="d-flex mb-2 bg-danger text-white">'
@@ -137,17 +138,12 @@ function pendiente(r) {
                             +'<p class="card-text">'+element.descripcion+'</p>'
                             +'</div>'
                             +'</div><br>');
-            break;
-    
-            default:
-                
-            break;
-        }
+            break; 
 
-        
-        
+            default:                
+            break;
+        }        
     });
-
     
     //Listar los reportes diarios
     reportesDiarios.forEach(element => {
@@ -169,12 +165,10 @@ function pendiente(r) {
 }
 
 //Funcion si la peticion ajax tiene algun error
-function errorTareas(r) {
-    // alert("Error Tareas Pendientes: "+r);
+function errorTareas(r) {    
     Swal.fire(
         'Error!',
         'Falló la conexión',
         'error'
     )
-    
 }
