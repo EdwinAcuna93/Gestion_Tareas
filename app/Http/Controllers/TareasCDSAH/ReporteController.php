@@ -15,6 +15,13 @@ class ReporteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
+     //Inicializar el middleware
+    //  public function __construct()
+    //  {
+    //      $this->middleware('jwt');
+    
+    //  }
+
     public function index(request $request){
         $reportes = Reporte::where('users_id', $request->users_id )->where('fecha', $request->fecha )->get(); 
         return response()->json(["reporte"=>$reportes]); 

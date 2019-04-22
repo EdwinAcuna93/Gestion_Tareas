@@ -10,7 +10,13 @@ use App\User;
 use App\Model\TareasCDSAH\Reporte;
 class TareaController extends Controller
 {
+    //Inicializar el middleware
+    //  public function __construct()
+    //  {
+    //      $this->middleware('jwt');
     
+    //  }
+
     public function index()
     {   
         $datos=User::all();
