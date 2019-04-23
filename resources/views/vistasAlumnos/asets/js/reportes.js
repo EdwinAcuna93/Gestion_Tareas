@@ -1,7 +1,7 @@
 //----------------------------------------------Agregar reporte----------------------------------
 $('#enviarReporte').click(function(){
       Swal.fire({
-        title: 'Está seguro de generar el reporte?',
+        title: '¿Está seguro de generar el reporte?',
         text: "Al generar el reporte las tareas pendientes pasaran a no terminadas!",
         type: 'warning',
         showCancelButton: true,
