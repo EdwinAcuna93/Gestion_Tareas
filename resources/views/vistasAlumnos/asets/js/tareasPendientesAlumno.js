@@ -108,7 +108,7 @@ function pendiente(r) {
                 $("#EstadoPendiente").append('<div class="card  border-primary ">'
                             +'<div id='+element.tituloTarea+' class="d-flex mb-3 bg-primary text-white">'
                             +'<div class="p-2 mr-auto">'+element.tituloTarea+'</div>'
-                            +'<button id='+element.id+' onclick="modificarEstado('+element.id+')" class="btn btn-primary btn-sm" ><i class="fas fa-check"></i></button>'
+                            +'<button id='+element.id+' onclick="modificarEstado('+element.id+')" class="btn btn-primary btn-sm" ><i class="fas fa-check" title="Finalizar Tarea"></i></button>'
                             +'</div>'
                             +'<div id='+element.tituloTarea+' class="card-body text-primary ">'
                             +'<p class="card-text">'+element.descripcion+'</p>'
