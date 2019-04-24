@@ -17,6 +17,8 @@ class TareaController extends Controller
     
     //  }
 
+
+    
     public function index()
     {   
         $datos=User::all();
@@ -78,11 +80,11 @@ class TareaController extends Controller
                 $mensaje="Tarea insertada con éxito";
 
             }catch (\Throwable $th) {
-                $mensaje="Ocurrio un error interno al insertar la tarea";
+                $mensaje="Ocurrió un error interno al insertar la tarea";
             }
             
         } else {  
-             $mensaje="La fecha para insertar una tarea debe ser mayor o igual al dia actual";
+             $mensaje="La fecha para insertar una tarea debe ser mayor ó igual al día actual";
         }
         
     } else {
@@ -130,11 +132,11 @@ class TareaController extends Controller
                 
             } else {
 
-                $mensaje="La fecha para modificar una tarea debe ser mayor o igual al dia actual";
+                $mensaje="La fecha para modificar una tarea debe ser mayor ó igual al día actual";
             }
         
         } else {
-           $mensaje="Error, no ha enviado el id de la tarea a editar o el parametro enviado no es numerico";
+           $mensaje="Error, no ha enviado el id de la tarea a editar ó el parametro enviado no es numerico";
         }
         return response()->json($mensaje);
         
@@ -202,10 +204,10 @@ class TareaController extends Controller
                      $key->estado="Incumplida";
                      $key->update();
                  }
-                 return response()->json("Las tareas que tenia pendientes se pasaron a Incumplidas");
+                 return response()->json("Las tareas que tenía pendientes se pasaron a Incumplidas");
                 
             }catch (\Throwable $th) {
-                return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas".$th);
+                return response()->json("Hubo un error al procesar la modificación de los estados de las tareas incumplidas".$th);
             } 
             
             
@@ -217,8 +219,8 @@ class TareaController extends Controller
     public function editarEstadoTareaDiasAtras(Request $request){ 
            
             try {
-                     //Se busca el registro a buscar
-                     //Luis: modifiqué de el campo de fechaFin a fecha abril4,2019
+                     //Se busca el registro a editar
+                   
                  $tareas = Tarea::where('users_id', $request->users_id )->where('fecha','<', $request->fecha )->where('estado', 'Pendiente' )->get(); 
                  
                  //Ahora se empieza a actualiar dato por dato similar al insertar   
@@ -227,7 +229,7 @@ class TareaController extends Controller
                          $key->estado="Incumplida";
                          $key->update();
                      }
-                     return response()->json("Todas las tareas de dias anteriores al actual con estado pendiente se movió a estado incumplidas");
+                     return response()->json("Todas las tareas de días anteriores al actual con estado pendiente se movió a estado incumplidas");
                     
             }catch (\Throwable $th) {
                     return response()->json("Hubo un error al procesar la modificacion de los estados de las tareas incumplidas");
