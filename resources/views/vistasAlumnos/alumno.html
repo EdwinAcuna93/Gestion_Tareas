@@ -33,6 +33,12 @@
             height: 250px;
             overflow-y: auto;
         }
+
+        .boxContenedor2{
+            width: 720px;
+            height: 575px;
+            overflow-y: auto;
+        }
         
         button:hover{
             background-color: rgb(129, 129, 122);
@@ -81,34 +87,40 @@
 
             <!-- ************************ Tareas Pendientes ******************************** -->
                 <h3 class="text-center">Tareas Diarias</h3>
-                <div id="ContenedorTaresDiarias" >
-                    <div class=" text-white" id="EstadoPendiente">
-
-                    </div>                    
-                </div>                
+                <div id="calendario" class="col-12 boxContenedor2" >
+                    <div id="ContenedorTaresDiarias" >
+                        <div class=" text-white" id="EstadoPendiente">
+            
+                        </div>                    
+                    </div> 
+                </div>
+                               
                 <br>                
             </div>
 
 
-    <!-- ************************ Contenedor Derecho ******************************** -->            
+        <!-- ************************ Contenedor Derecho ******************************** -->            
             <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
-
-                <!-- ************************ Tareas Finalizadas ******************************** -->
-                    <h4 class="text-center">Tareas Finalizadas</h4>
-                <div class="col-12 boxContenedor">
-                    
-                    <div id="EstadoFinalizada" class="text-white">
-                           
+                <div class="row">
+                    <!-- ************************ Tareas Finalizadas ******************************** -->
+                    <div class="mb-5 col-xs-12 col-sm-12 col-md-6 col-lg-12 col-xl-12">
+                        <h4 class="text-center">Tareas Finalizadas</h4>
+                        <div class="col-12 boxContenedor">
+                            <div id="EstadoFinalizada" class="text-white">
+                            
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <hr>
+                    <hr>
 
-                <!-- ************************ Tareas  No terminadas ******************************** -->
-                <h4 class="text-center">Tareas No Terminadas</h4>
-                <div class="col-12 boxContenedor">
-                       
-                    <div id="EstadoNoTerminadas" class="text-white">
-                               
+                    <!-- ************************ Tareas  No terminadas ******************************** -->
+                    <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-12 col-xl-12">
+                        <h4 class="text-center">Tareas No Terminadas</h4>
+                        <div class="col-12 boxContenedor">
+                            <div id="EstadoNoTerminadas" class="text-white">
+                                    
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
