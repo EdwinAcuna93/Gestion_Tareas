@@ -21,7 +21,12 @@ class TareaController extends Controller
     
     public function index()
     {   
-        $datos=User::all();
+        //$datos=User::all();
+        $datos = User::select()
+        ->join("role_user as ru",'ru.user_id','=','users.id')
+        ->join('roles as ro', 'ro.id','=','ru.role_id')
+        ->where("ro.name","estudiante")
+        ->get();
         return  response()->json(['datos'=>$datos]);
     }
 
