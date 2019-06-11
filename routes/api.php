@@ -23,6 +23,8 @@ Route::group([
     Route::get('me', 'AuthController@me');
     Route::resource('roles', 'RolController');
     Route::resource('user', 'UserController');
+    Route::get('users/show', 'UserController@show');
+    Route::get('users/eliminar', 'UserController@eliminar');
 });
 
 Route::group([

@@ -11,7 +11,7 @@ class RolController extends Controller
 
     public function __construct()
     {
-        $this->middleware(array('jwt','permisoRol:admin'));
+        //$this->middleware(array('jwt','permisoRol:admin'));
     }
     /**
      * Display a listing of the resource.

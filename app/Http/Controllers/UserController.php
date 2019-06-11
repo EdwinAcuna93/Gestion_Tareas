@@ -12,7 +12,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['jwt','permisoRol:admin'], ['except' => ['store']]);
+       // $this->middleware(['jwt','permisoRol:admin'], ['except' => ['store']]);
     }
     /**
      * Display a listing of the resource.
@@ -85,9 +85,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request)
     {
-        //
+        $datos= User::find($request->id);
+        return  response()->json(['datos'=>$datos]);
     }
 
     /**
